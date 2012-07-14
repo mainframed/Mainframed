@@ -1,0 +1,4 @@
+Scripts, JCL and programs to use for Mainfrme security auditing
+COPYRACF.JCL: JCL to copy a RACF Database
+enumerate_TSO.sh: Script to enumerate TSO users using the TSO/E logon panel
+nc110-USS: Netcat with changes made so it can be compiled on USS/OMVS
