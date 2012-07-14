@@ -15,7 +15,8 @@ set target "10.10.0.24"			;# Target IP address
 set target_port   "23"			;# Target Port
 set sleep "2"				;# Change to 1 for faster systems
 set userfile "userids.txt"		;# Change to the name of your user listing file
-set found "0"
+log_user 0    		                ;# if you want to see what it does change this to 1
+
 ###########################################################
 # End configuration options
 ###########################################################
@@ -28,9 +29,6 @@ puts "//"
 
 set usernames [open $userfile r]
 set found "0"
-
-# suppress terminal output to our screen
-log_user 0               ;# if you want to see what it does
 
 # Initiate a 3270 connction to the $target:$port using C3270
 puts "//               Connecting to $target:$target_port"
