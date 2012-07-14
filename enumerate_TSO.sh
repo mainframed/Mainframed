@@ -68,7 +68,7 @@ puts "//"
 
 send "tso\r"
 sleep $sleep
-send "fakefake\r" ;# this is the first userid to try. It shouldnt exist and starts the ball rolling
+send "fake\r" ;# this is the first userid to try. It shouldnt exist and starts the ball rolling
 sleep $sleep
 #C3270 is now at the TSO/E logon panel, check if first userID was valid it shouldn't be
  expect {
@@ -99,7 +99,7 @@ while {[gets $usernames inline] >= 0} {
 		 timeout                                { set reply timeout }
 		 }	
 		send "tso\r"				
-		send "fakefake\r"
+		send "fake\r"
 		puts -nonewline " ::: Found!"
 	}
 	puts ""
