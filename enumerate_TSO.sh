@@ -33,7 +33,6 @@ set found "0"
 # Initiate a 3270 connction to the $target:$port using C3270
 puts "//               Connecting to $target:$target_port"
 spawn c3270 -model 3279-2 -once $target:$target_port
-
 sleep $sleep
 
 ########################################
@@ -98,7 +97,8 @@ while {[gets $usernames inline] >= 0} {
 		 "Enter your choice==>"                 { set reply tso }
 		 timeout                                { set reply timeout }
 		 }	
-		send "tso\r"				
+		send "tso\r"
+		sleep $sleep				
 		send "fake\r"
 		puts -nonewline " ::: Found!"
 	}
