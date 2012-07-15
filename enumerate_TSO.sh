@@ -76,7 +76,6 @@ sleep $sleep
    timeout                            	{ set enum timeout }
    }
 
-sleep $sleep
 puts "//               Enumerating through $userfile:"
 while {[gets $usernames inline] >= 0} {
 	puts -nonewline "//               Trying $inline "
@@ -100,6 +99,10 @@ while {[gets $usernames inline] >= 0} {
 		send "tso\r"
 		sleep $sleep				
 		send "fake\r"
+		expect {
+   			"not authorized"             	{ set enum failed }
+   			timeout                            	{ set enum timeout }
+   		}
 		puts -nonewline " ::: Found!"
 	}
 	puts ""
