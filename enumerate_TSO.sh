@@ -1,7 +1,8 @@
 #!/usr/bin/expect -f
 
 #######################
-# Script to take advantage of TSO disclosing if a UserID is invalid
+# OLD SCRIPT. Replaced by TSO Brute! 
+#Script to take advantage of TSO disclosing if a UserID is invalid
 # May require changing for your specific environment
 # Initially developed by @mainframed767 for BSidesLV
 # Requirements: C3270 and Expect
@@ -9,7 +10,9 @@
 # Thanks to http://www.kicksfortso.com/same/KooKbooK/KooKbooK-6.htm
 #######################
 
-
+puts "!!!!
+puts "!!!! THIS IS A POC SCRIPT. TSO BRUTE HAS SUPERSEDED THIS PROGRAM. IT IS KEPT FOR HISTORICAL REASONS ONLY !!!!"
+puts "!!!!"
 #change to whatver you want
 set target "10.10.0.24"			;# Target IP address
 set target_port   "23"			;# Target Port
