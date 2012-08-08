@@ -15,6 +15,10 @@ puts "!!!! THIS IS A POC SCRIPT. TSO BRUTE HAS SUPERSEDED THIS PROGRAM. IT IS KE
 puts "!!!!                            THIS VERSION HAS KNOWN BUGS AND WAS JUST POC!                            !!!!"
 puts "!!!!            THE NEWEST VERSION CAN BE FOUND AT https://github.com/mainframed/TSO-Brute               !!!!"
 puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+puts ""
+puts ""
+sleep 30
+
 #change to whatver you want
 set target "10.10.0.24"			;# Target IP address
 set target_port   "23"			;# Target Port
