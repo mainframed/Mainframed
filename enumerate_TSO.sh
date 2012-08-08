@@ -10,9 +10,11 @@
 # Thanks to http://www.kicksfortso.com/same/KooKbooK/KooKbooK-6.htm
 #######################
 
-puts "!!!!
+puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 puts "!!!! THIS IS A POC SCRIPT. TSO BRUTE HAS SUPERSEDED THIS PROGRAM. IT IS KEPT FOR HISTORICAL REASONS ONLY !!!!"
-puts "!!!!"
+puts "!!!!                            THIS VERSION HAS KNOWN BUGS AND WAS JUST POC!                            !!!!"
+puts "!!!!            THE NEWEST VERSION CAN BE FOUND AT https://github.com/mainframed/TSO-Brute               !!!!"
+puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 #change to whatver you want
 set target "10.10.0.24"			;# Target IP address
 set target_port   "23"			;# Target Port
