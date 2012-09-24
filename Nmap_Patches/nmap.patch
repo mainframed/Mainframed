@@ -1,0 +1,33 @@
+Index: nmap-service-probes
+===================================================================
+--- nmap-service-probes	(revision 29856)
++++ nmap-service-probes	(working copy)
+@@ -542,8 +542,8 @@
+ match ftp m|^220.*NcFTPd Server | p/NcFTPd/ o/Unix/
+ match ftp m|^220 ([-\w_.]+) FTP server \(SunOS 5\.([789])\) ready| p/Sun Solaris $2 ftpd/ o/Solaris/ h/$1/ cpe:/o:sun:sunos/a
+ match ftp m|^220 ([-\w_.]+) FTP server \(SunOS (\S+)\) ready| p/Sun SunOS ftpd/ v/$2/ o/Solaris/ h/$1/ cpe:/o:sun:sunos/a
+-match ftp m|^220-([-.\w]+) IBM FTP.*(V\d+R\d+)| p|IBM OS/390 ftpd| v/$2/ o|OS/390| h/$1/
+-match ftp m|^220-IBM FTP, .*\.\r\n220 Connection will close if idle for more than 120 minutes\.\r\n| p|IBM OS/390 ftpd| o|OS/390|
++match ftp m|^220-([-.\w]+) IBM FTP.*(V\d+R\d+)| p|IBM z/OS ftpd| v/$2/ o|z/OS| h/$1/
++match ftp m|^220-IBM FTP, .*\.\r\n220 Connection will close if idle for more than 120 minutes\.\r\n| p|IBM z/OS ftpd| o|z/OS|
+ match ftp m|^220 VxWorks \((\d[^)]+)\) FTP server ready| p/VxWorks ftpd/ v/$1/ o/VxWorks/ cpe:/o:windriver:vxworks/a
+ match ftp m|^220 VxWorks \(VxWorks(\d[^)]+)\) FTP server ready| p/VxWorks ftpd/ v/$1/ o/VxWorks/ cpe:/o:windriver:vxworks/a
+ match ftp m|^220 VxWorks FTP server \(VxWorks ?([\d.]+) - Secure NetLinx version \(([\d.]+)\)\) ready\.\r\n| p|AMX NetLinx A/V control system ftpd| v/$2/ i/VxWorks $1/ d/media device/ o/VxWorks/ cpe:/o:windriver:vxworks/a
+@@ -3097,7 +3097,7 @@
+ match telnet m|^\xff\xfb\x01\xff\xfb\x03\xff\xfd\x03\xff\xfd\x18\xff\xfd\x1f\xff\xfd \xff\xfd!\x07\r\n\r\n Welcome to OpenVMS \(TM\) Alpha Operating System, Version V([-\w_.]+)  \r\n\r\n\rUsername: | p/OpenVMS telnetd/ i/OpenVMS $1/ o/OpenVMS/ cpe:/o:hp:openvms/a
+ match telnet m|\xff\xfb\x01\xff\xfb\x03\r\n\r\n Welcome to OpenVMS Alpha OS, Version V([\d+.]+)| p/OpenVMS telnetd/ i/OpenVMS $1/ o/OpenVMS/ cpe:/o:hp:openvms/a
+ match telnet m|^\xff\xfb\x01\xff\xfb\x03\xff\xfd\x01\x1b\[0;37;40m\x1b\[2J\x1b\[0;37;40m\x1b\[1m\x1b\[5;27HVertical Horizon Stack Manager\x1b\[0;37;40m\x1b\[1m\x1b\[10;26HEnterasys Networks, Incorporated| p/Enterasys Vertical Horizon Manager/ d/switch/
+-match telnet m|^\xff\xfd\($| p|IBM OS/390 or SNA telnetd|
++match telnet m|^\xff\xfd\($| p|IBM z/OS or SNA telnetd|
+ match telnet m|^\xff\xfb\r\nRemotelyAnywhere Telnet Server v([\d.]+)\r\n.*\r\n\r\n([-\w_. ]+) login\r\nuser name: | p/RemotelyAnywhere telnetd/ v/$1/ i/Name $2/ o/Windows/ cpe:/o:microsoft:windows/a
+ match telnet m|^\xff\xfb\x01\xff\xfb\x03\xff\xfd\x03\xff\xfd\x1f\xff\xfd\x18([^\r\n]+)\r\nRemotelyAnywhere Telnet Server ([\d.]+)\r\n.*\r\n\r\n([-\w_. ]+) login\r\nuser name: |s p/RemotelyAnywhere telnetd/ v/$2/ i/$1; Name $3/ o/Windows/ cpe:/o:microsoft:windows/a
+ match telnet m|^\r\nVxWorks login: \xff\xfb\x01$| p/VxWorks telnetd/ o/VxWorks/ cpe:/o:windriver:vxworks/a
+@@ -7218,7 +7218,7 @@
+ # uTorrent 2.0.2
+ match http m|^HTTP/1\.1 400 ERROR\r\nConnection: keep-alive\r\nContent-Length: 15\r\nContent-Type: text/html\r\n\r\ninvalid request$| p/uTorrent WebUI/ o/Windows/ cpe:/o:microsoft:windows/a
+ match http m|^HTTP/1\.0 200 OK\r\n.*Server: WYM/([\w._-]+)\r\n.*Content-Length: 1029\r\nLast-Modified: Tue, 19 May 2009 02:17:02 GMT\r\n\r\n\xef\xbb\xbf<html>\r\n<head>\r\n<title>NVS</title>|s p/WYM httpd/ v/$1/ i/A+V Link NVS-4000 surveillance system http config/ d/webcam/
+-match http m|^HTTP/1\.1 200 OK\r\nLast-Modified: Mon, 07 Apr  2009  04:00:00 GMT\r\nContent-Type: TEXT/HTML\r\nDate: \w\w\w, \d\d \w\w\w  \d\d\d\d  \d\d:\d\d:\d\d GMT00:00 GMT\r\nServer: ICOM ([\w._-]+)    from SBS\r\nMIME-Version: 1\.0\r\nServer: ICOM [\w._-]+    from SBS\r\nConnection: close\r\nContent-Length:             861\r\n\r\n<HTML>\r\n<HEAD>\r\n<TITLE>UltraQuest Index HTML</TITLE>| p/ICOM httpd/ v/$1/ i/UltraQuest mainframe reporting/ o|OS/390|
++match http m|^HTTP/1\.1 200 OK\r\nLast-Modified: Mon, 07 Apr  2009  04:00:00 GMT\r\nContent-Type: TEXT/HTML\r\nDate: \w\w\w, \d\d \w\w\w  \d\d\d\d  \d\d:\d\d:\d\d GMT00:00 GMT\r\nServer: ICOM ([\w._-]+)    from SBS\r\nMIME-Version: 1\.0\r\nServer: ICOM [\w._-]+    from SBS\r\nConnection: close\r\nContent-Length:             861\r\n\r\n<HTML>\r\n<HEAD>\r\n<TITLE>UltraQuest Index HTML</TITLE>| p/ICOM httpd/ v/$1/ i/UltraQuest mainframe reporting/ o|z/OS|
+ match http m|^HTTP/1\.0 404 Not Found\r\nContent-type: text/html\r\nDate: Sat, 31 Dec 2005 23:02:28 GMT\r\nConnection: close\r\n\r\n<HEAD><TITLE>404 Not Found</TITLE></HEAD>\n<BODY><H1>404 Not Found</H1>\nThe requested URL was not found on this server\.\n</BODY>\n$| p/BusyBox httpd/ i/Sphairon Turbolink IAD ADSL modem http config/ o/Linux/ cpe:/a:busybox:httpd/ cpe:/o:linux:kernel/a
+ match http m|^HTTP/1\.1 302\r\nLocation: /login\.vibe\r\n\r\n$| p/VibeStreamer streaming media httpd/
+ match http m|^\r\n\r\n\r\n\r\n\r\n\r\n<\?xml version=\"1\.0\" encoding=\"ISO-8859-1\"\?>\r\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1\.0 Strict//EN\"\r\n  \"http://www\.w3\.org/TR/xhtml1/DTD/xhtml1-strict\.dtd\">\r\n\r\n\r\n\r\n<html>\r\n<head>\r\n<title>RealSecure SiteProtector</title>.*<meta name=\"copyright\"\r\n\t\tcontent=\"This web site, its design, copy, scripts and artwork,\r\n\t\tare copyright 2006 by Internet Security Systems, Inc\.\r\n|s p/Apache httpd/ v/2.0.63/ i/ISS SiteProtector 2.0/ cpe:/a:apache:http_server:2.0.63/
