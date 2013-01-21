@@ -1,0 +1,148 @@
+/* Rexx */
+Address TSO
+Numeric Digits 64
+
+/*====================================================================*/
+/*                                                                    */
+/* Name: LPINFOX                                                      */
+/* Description: Print out basic information about this z/OS image.    */
+/*                                                                    */
+/* This program is free software: you can redistribute it and/or      */
+/* modify it under the terms of the GNU General Public License as     */
+/* published by the Free Software Foundation, either version 3 of the */
+/* License, or (at your option) any later version.                    */
+/*                                                                    */
+/* This program is distributed in the hope that it will be useful,    */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of     */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU   */
+/* General Public License for more details at                         */
+/* http://www.gnu.org/licenses/                                       */
+/*                                                                    */
+/*                        (c) Copyright 2011, 2012 Longpela Expertise */
+/*                        www.longpelaexpertise.com.au                */
+/*====================================================================*/
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  Get z/OS name and version                                         */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+cvtaddr = get_dec_addr(16)          /* Get address of CVT          */
+zos_name = Strip(Storage(D2x(cvtaddr+340),8))
+ecvtaddr = get_dec_addr(cvtaddr+140)
+zos_ver = Strip(Storage(D2x(ecvtaddr+512),2))
+zos_rel = Strip(Storage(D2x(ecvtaddr+514),2))
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  Output Title                                                      */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+say '------------------------------------------------------'
+say ' LPInfo: Information for z/OS' zos_name 'as of' Date()
+say '------------------------------------------------------'
+Say 'z/OS version:' zos_ver || '.' || zos_rel
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  Output Sysplex and JES Information                                */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+sysplex_name = Strip(Storage(D2x(ecvtaddr+8),8))
+Say 'Sysplex name:' sysplex_name
+Say 'JES:' SYSVAR('SYSJES')  '(Node' SYSVAR('SYSNODE') || ')'
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  Output Security System Information                                */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+cvtrac = get_dec_addr(cvtaddr+992)
+rcvtid = Storage(d2x(cvtrac),4)
+If rcvtid = 'RCVT' Then say 'Security Software: RACF'
+If rcvtid = 'RTSS' Then say 'Security Software: CA Top Secret'
+If rcvtid = 'ACF2' Then say 'Security Software: CA ACF2'
+Say ''
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  Call IWMQVS to get MSU, LPAR and z/VM Info                        */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+
+/* --- Setup parameters and output area ----------------------------- */
+QVS_Outlen = 500                       /* Output area length          */
+QVS_Outlenx = Right(x2c(d2x(QVS_Outlen)),4,d2c(0))
+                                       /* Get length as fullword      */
+QVS_Out = QVS_Outlenx || Copies('00'X,QVS_Outlen-4)
+
+/* --- Call IWMQVS  ------------------------------------------------- */
+Address Linkpgm 'IWMQVS QVS_Out'
+If rc > 0 Then Say "Error from IWMQVS, rc = " || rc
+
+/* --- Process capacity flags \-------------------------------------- */
+qvs_flag = C2x(substr(QVS_Out,6,1))
+cec_cap_valid = Substr(X2b(qvs_flag),1,1) /* CEC capacity valid?      */
+lpar_cap_valid = Substr(X2b(qvs_flag),2,1)/* LPAR capacity valid?     */
+vm_cap_valid = Substr(X2b(qvs_flag),3,1)  /* VM capacity valid?       */
+
+/* --- Output Processor model and type ------------------------------ */
+cec_type = Substr(QVS_Out,9,4)
+cec_model = Substr(QVS_Out,13,12)
+Select
+  When cec_type = '2064' Then cec_desc = '(z Series 900)'
+  When cec_type = '2066' Then cec_desc = '(z Series 800)'
+  When cec_type = '2084' Then cec_desc = '(z Series 990)'
+  When cec_type = '2086' Then cec_desc = '(z Series 890)'
+  When cec_type = '2094' Then cec_desc = '(System z9 EC)'
+  When cec_type = '2096' Then cec_desc = '(System z9 BC)'
+  When cec_type = '2097' Then cec_desc = '(System z10 EC)'
+  When cec_type = '2098' Then cec_desc = '(System z10 BC)'
+  When cec_type = '2817' Then cec_desc = '(zEnterprise 196)'
+  When cec_type = '2818' Then cec_desc = '(zEnterprise 114)'
+  
+  Otherwise cec_desc = ''
+End                                    /* select                      */
+Say 'CEC: ' || cec_type || '-' || Strip(cec_model) cec_desc
+
+/* --- Output CEC capacity ------------------------------------------ */
+If cec_cap_valid = 1 Then Do
+   proc_cap = C2d(Substr(QVS_out,65,4))
+   Say 'CEC Capacity' proc_cap 'MSU'
+End                                    /* if cec capacity valid       */
+
+/* --- Output LPAR name and capacity -------------------------------- */
+lparname = Strip(Substr(QVS_out,69,8))
+If lparname = '' Then Say 'Not running under an LPAR'
+Else Say 'LPAR name:' lparname
+If lpar_cap_valid = 1 Then Do
+   lpar_cap = C2d(Substr(QVS_out,81,4))
+   Say 'LPAR Capacity' lpar_cap 'MSU'
+End                                    /* if lpar capacity valid      */
+
+/* --- Output z/VM image name and capacity -------------------------- */
+vmname = Strip(Substr(QVS_out,85,8))
+If vmname = '' Then Say 'Not running under a z/VM image'
+Else Say 'z/VM image name:' vmname
+If vm_cap_valid = 1 Then Do
+   vm_cap = C2d(Substr(QVS_out,93,4))
+   Say 'z/VM Image Capacity' lpar_cap 'MSU'
+End                                    /* if vm capacity valid        */
+
+Exit
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  get_dec_addr                                                      */
+/*                                                                    */
+/*     Function to return address stored at address passed            */
+/*                                                                    */
+/*     Input:  addr = address of storage holding address needed       */
+/*     Output: four bytes at addr (in decimal)                        */
+/* ------------------------------------------------------------------ */
+get_dec_addr:
+Parse Arg addr
+hex_addr = d2x(addr)
+stor = Storage(hex_addr,4)
+hex_stor = c2x(stor)
+value = x2d(hex_stor)
+Return value
