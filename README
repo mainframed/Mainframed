@@ -1,6 +1,6 @@
 Scripts, JCL and programs to use for z/OS Mainframe security auditing
 
-COPYRACF.JCL: 
+Presentation: 
 JCL to copy a RACF Database
 
 enumerate_TSO.sh: 
@@ -11,3 +11,5 @@ Netcat with changes made so it can be compiled on USS/OMVS
 
 Links and Resources available at:
 http://mainframed767.tumblr.com/
+
+This is a place to store stuff I've found or plan to use in future scrips. 
