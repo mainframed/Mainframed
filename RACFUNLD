@@ -1,0 +1,15 @@
+//RACFUNLD JOB  'RACFUNLD'
+//         NOTIFY=&SYSUID,
+//         CLASS=A,
+//         MSGCLASS=X,
+//         MSGLEVEL=(1,1),
+//         REGION=6000K,
+//         COND=(4,LT)
+//UNLOAD   EXEC PGM=IRRDBU00,PARM=NOLOCKINPUT
+//SYSPRINT DD   SYSOUT=*
+//****************************************************
+//* CHANGE SYS1.RACFDB.BACKUP TO YOUR RACF DB
+//* CHANGE CASE.RACFUNLD TO YOUR OWN
+//****************************************************
+//INDD1    DD   DISP=SHR,DSN=SYS1.RACFDB.BACKUP
+//OUTDD    DD   DISP=SHR,DSN=CASE.RACFUNLD
