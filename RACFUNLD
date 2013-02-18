@@ -1,4 +1,4 @@
-//RACFUNLD JOB  'RACFUNLD'
+//RACFUNLD JOB  'RACFUNLD',
 //         NOTIFY=&SYSUID,
 //         CLASS=A,
 //         MSGCLASS=X,
@@ -6,10 +6,13 @@
 //         REGION=6000K,
 //         COND=(4,LT)
 //UNLOAD   EXEC PGM=IRRDBU00,PARM=NOLOCKINPUT
-//SYSPRINT DD   SYSOUT=*
+//SYSPRINT DD SYSOUT=A,COPIES=1,DEST=U1018
 //****************************************************
 //* CHANGE SYS1.RACFDB.BACKUP TO YOUR RACF DB
 //* CHANGE CASE.RACFUNLD TO YOUR OWN
 //****************************************************
-//INDD1    DD   DISP=SHR,DSN=SYS1.RACFDB.BACKUP
-//OUTDD    DD   DISP=SHR,DSN=CASE.RACFUNLD
+//INDD1    DD   DISP=SHR,DSN=SYS1.RACFDS.BACKUP
+//OUTDD    DD   DSN=CASE.RACF.FLATFILE,
+//            DISP=(NEW,CATLG,DELETE),
+//            SPACE=(CYL,(70,10),RLSE),
+//            DCB=(RECFM=FB,LRECL=4096,BLKSIZE=0)
