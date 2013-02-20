@@ -111,7 +111,7 @@ next:
 
 #From Phil, for use on IBM Mainframes Unix (USS, aka OMVS)      
 omvs:
-	make -e $(ALL) $(MFLAGS) XFLAGS='-DGENERIC -DOMVS' STATIC=
+	make -e $(ALL) $(MFLAGS) XFLAGS='-DGENERIC -DOMVS -DTELNET -DGAPING_SECURITY_HOLE' STATIC=
 
 # start with this for a new architecture, and see what breaks.
 generic:
