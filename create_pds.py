@@ -1,9 +1,11 @@
 #!/usr/bin/python
-print "[~] Super cheesy script to make PDS's, cause fuck ISPF, thats why "
-print "[~] mkdir pds_name to create file                                                        "
-print "[~] puts an empty file in the pds (or member you pedantic)                               \n"
+print "[i] Super cheesy script to make PDS's, cause fuck ISPF, thats why "
+print "[i] Uses FTP to create PDS. Assumes port 21"
+#print "[~] mkdir pds_name to create file                                                        "
+#print "[~] puts an empty file in the pds (or member you pedantic)                               "
 print "[!] takes three arguments: hostname username password pds_name"
 print "[!] i.e. ./create_pds.py emc plague secret HAXORS "
+print "[!] or ./create_pds.py 192.168.0.7 margo god amazing
 print "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n"
 
 debug = False
