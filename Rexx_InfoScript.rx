@@ -99,6 +99,13 @@ Select
   When cec_type = '2098' Then cec_desc = '(System z10 BC)'
   When cec_type = '2817' Then cec_desc = '(zEnterprise 196)'
   When cec_type = '2818' Then cec_desc = '(zEnterprise 114)'
+  When cec_type = '2827' Then cec_desc = '(zEnterprise EC12)'
+  When cec_type = '2828' Then cec_desc = '(zEnterprise BC12)'
+  When cec_type = '2828' Then cec_desc = '(zEnterprise BC12)'
+  When cec_type = '2964' Then cec_desc = '(z Systems z13)'
+  When cec_type = '2965' Then cec_desc = '(z Systems z13s)'
+  When cec_type = '3906' Then cec_desc = '(z Systems z14)'
+  When cec_type = '3907' Then cec_desc = '(z Systems z14 ZR1)'
   
   Otherwise cec_desc = ''
 End                                    /* select                      */
